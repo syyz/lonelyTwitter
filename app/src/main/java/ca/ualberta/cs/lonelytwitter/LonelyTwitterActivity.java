@@ -46,7 +46,7 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 		clearButton.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v){
-				bodyText.setText("");
+				//bodyText.setText("");
 				tweetList.clear();
 				adapter.notifyDataSetChanged();
 				saveInFile();
