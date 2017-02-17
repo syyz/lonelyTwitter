@@ -10,6 +10,9 @@ public class TweetList {
     private ArrayList<NormalTweet> tweets = new ArrayList<NormalTweet>();
 
     public void add(NormalTweet tweet){
+        if (this.hasTweet(tweet)) {
+            throw new IllegalArgumentException("Error:already exsit");
+        }
         tweets.add(tweet);
     }
     public boolean hasTweet (NormalTweet tweet){
