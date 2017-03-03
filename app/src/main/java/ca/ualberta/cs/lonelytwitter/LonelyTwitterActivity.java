@@ -25,14 +25,20 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class LonelyTwitterActivity extends Activity {
 
+public class LonelyTwitterActivity extends Activity {
+	private LonelyTwitterActivity activity=this;
 	private static final String FILENAME = "file.sav";
+	private enum TweetListOrdering {DATE_ASCENDING, DATE_DESCENING, TEXT_ASCENDING,
+		TEXT_DESCENDING}
 	private EditText bodyText;
 	private ListView oldTweetsList;
 	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
 	private ArrayAdapter<Tweet> adapter;
 
+	public  ListView getOldTweetsList(){
+		return oldTweetsList;
+	}
 
 
 	@Override
@@ -41,7 +47,7 @@ public class LonelyTwitterActivity extends Activity {
 		setContentView(R.layout.main);
 
 		bodyText = (EditText) findViewById(R.id.body);
-		Button saveButton = (Button) findViewById(R.id.save);
+		final Button saveButton = (Button) findViewById(R.id.save);
 		Button clearButton = (Button) findViewById(R.id.clear);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
@@ -60,11 +66,29 @@ public class LonelyTwitterActivity extends Activity {
 		clearButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				setResult(RESULT_OK);
+				//setResult(RESULT_OK);
 				tweetList.clear();
-				deleteFile(FILENAME);  // TODO deprecate this button
+				deleteFile("file.sav")
+				//deleteFile(FILENAME);  // TODO deprecate this button
 				adapter.notifyDataSetChanged();
+				saveInFile();
 			}
+		});
+
+		oldTweetsList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long j){
+									Intent intent=new Intent(activity, EditTweetActivity.class)
+
+
+
+			NormalTweet tweet = (NormalTweet) oldTweetsList.getItemAtPosition(i);
+			String testString = tweet.getMessage();
+			Date testDate = tweet.getDate();
+			intent.putExtra("Test String",testString);
+			intent.putExtra("Test date",testDate);
+
+			startActivity(intent);
+		}
 		});
 
 
